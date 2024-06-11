@@ -1,0 +1,1 @@
+g:/code/py_projects/mail/Mail Merge Project Start/Input/Letters/starting_letter.txt
