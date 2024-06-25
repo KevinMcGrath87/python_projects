@@ -3,8 +3,8 @@ import tkinter.ttk
 import numpy
 import math
 import time
-
-
+from PIL import Image, ImageDraw, ImageTk, PSDraw
+import os
 
 window = tkinter.Tk()
 maxWidth = window.winfo_screenwidth()
@@ -77,22 +77,68 @@ def rgbFunct(number):
 
 
 
-def animateSin(phase=0,speed = .0005):
-    while True:
+# def animateSin(phase=0,speed = .0005):
+#     while True:
+#         canvas.delete("all")
+#         # sinPlot(phase=phase, scale = 10)
+#         # sinPlot2(phase,scale = 25)
+#         sinPlot3(phase, scale = 25)
+#         phase +=.009
+#         time.sleep(speed)
+#         canvas.update()
+    
+
+
+# def animateSin(phase=0,speed = .0005,frames, duration, num_frames):
+#     frame_number = 0
+#     while frame_number <= num_frames:
+#         canvas.delete("all")
+#         # sinPlot(phase=phase, scale = 10)
+#         # sinPlot2(phase,scale = 25)
+#         sinPlot3(phase, scale = 25)
+#         phase +=.009
+#         time.sleep(speed)
+#         canvas.update()
+#         canvas.postscript(file = 'screen_anime.ps')
+#         frame = Image.open('screen_anime.ps')
+#         # may need to add a crop to canvas here...
+#         frames.append(frame)
+#         frame_number += 1
+#     frames[0].save('anime_gif', save_all = True, )   
+
+frames = []
+duration = 10
+num_frames = 4
+
+def animateSin(frames, duration, num_frames, phase=0,speed = .05):
+    frame_number = 0
+    while frame_number < num_frames:
         canvas.delete("all")
         # sinPlot(phase=phase, scale = 10)
         # sinPlot2(phase,scale = 25)
         sinPlot3(phase, scale = 25)
         phase +=.009
-        time.sleep(speed)
         canvas.update()
-    
+        # PSDraw.PSDraw('animated.ps')
+        # PSDraw.PSDraw.begin_document()
+        canvas.postscript(file = 'screen_anime.ps')
+        frame = Image.open('screen_anime.ps')
+        # may need to add a crop to canvas here...
+        frames.append(frame)
+        print(len(frames))
+        frame_number += 1
+        time.sleep(speed)
+    print(len(frames), "frames in frames")    
+    frames[0].save('anime.gif', save_all = True,append_images=frames[1:],duration=duration, loop = 0 )
+    print('file should be saved now')
 
-animateSin()
 
-# sinPlot(phase = 0)
+        
 
-window.update()
+animateSin(frames, duration, num_frames)
+
+
+# window.update()
 
 tkinter.mainloop()
 
